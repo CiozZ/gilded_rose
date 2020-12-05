@@ -9,7 +9,8 @@ CLASS ltc_items_shop DEFINITION FINAL FOR TESTING
       checks_subcl_aged_brie   FOR TESTING,
       checks_subcl_backstage   FOR TESTING,
       checks_subcl_sulfuras    FOR TESTING,
-      checks_subcl_common      FOR TESTING
+      checks_subcl_common      FOR TESTING,
+      checks_conjured_item     FOR TESTING
       .
 ENDCLASS.
 
@@ -57,6 +58,15 @@ CLASS ltc_items_shop IMPLEMENTATION.
     DATA(mo_aged_brie) = NEW ycl_item( iv_name = 'Common Item' iv_quality = 1 iv_sell_in = 1 ).
     "Act
     DATA(lv_result) = xsdbool( ycl_item_shop=>create_item( mo_aged_brie ) IS INSTANCE OF ycl_common_item ).
+    "Assert
+    cl_abap_unit_assert=>assert_true( act = lv_result ).
+  ENDMETHOD.
+
+  METHOD checks_conjured_item.
+    "Arrange
+    DATA(mo_aged_brie) = NEW ycl_item( iv_name = 'Conjured Cake' iv_quality = 1 iv_sell_in = 1 ).
+    "Act
+    DATA(lv_result) = xsdbool( ycl_item_shop=>create_item( mo_aged_brie ) IS INSTANCE OF ycl_conjured_cake ).
     "Assert
     cl_abap_unit_assert=>assert_true( act = lv_result ).
   ENDMETHOD.

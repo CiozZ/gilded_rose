@@ -12,12 +12,19 @@ CLASS ycl_item_root DEFINITION
       RETURNING VALUE(rv_result)   TYPE boole_d
       .
     METHODS decrease_sell_in.
+    METHODS decrease_quality.
 
     DATA mo_item TYPE REF TO ycl_item.
   PRIVATE SECTION.
 ENDCLASS.
 
 CLASS ycl_item_root IMPLEMENTATION.
+
+  METHOD decrease_quality.
+    IF mo_item->mv_quality > 0.
+      mo_item->mv_quality = mo_item->mv_quality - 1.
+    ENDIF.
+  ENDMETHOD.
 
   METHOD decrease_sell_in.
     mo_item->mv_sell_in = mo_item->mv_sell_in - 1.

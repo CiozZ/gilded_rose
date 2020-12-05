@@ -10,6 +10,7 @@ CLASS ycl_item_shop DEFINITION
         aged_brie TYPE string VALUE 'Aged Brie',
         backstage TYPE string VALUE 'Backstage passes to a TAFKAL80ETC concert',
         sulfuras  TYPE string VALUE 'Sulfuras, Hand of Ragnaros',
+        conjured  TYPE string VALUE 'Conjured Cake',
       END OF mc_items.
 
     CLASS-METHODS create_item
@@ -22,6 +23,7 @@ CLASS ycl_item_shop IMPLEMENTATION.
     ro_item = COND #( WHEN io_item->mv_name = mc_items-aged_brie THEN NEW ycl_aged_brie( io_item )
                       WHEN io_item->mv_name = mc_items-backstage THEN NEW ycl_backstage( io_item )
                       WHEN io_item->mv_name = mc_items-sulfuras  THEN NEW ycl_sulfuras( io_item )
+                      WHEN io_item->mv_name = mc_items-conjured  THEN NEW ycl_conjured_cake( io_item )
                       ELSE NEW ycl_common_item( io_item )
       ).
   ENDMETHOD.
