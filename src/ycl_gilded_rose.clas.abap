@@ -13,8 +13,7 @@ CLASS ycl_gilded_rose DEFINITION
 
   PRIVATE SECTION.
     DATA:
-      mt_items TYPE tt_items,
-      mo_item  TYPE REF TO ycl_item.
+      mt_items TYPE tt_items.
 ENDCLASS.
 
 CLASS ycl_gilded_rose IMPLEMENTATION.
@@ -24,8 +23,8 @@ CLASS ycl_gilded_rose IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD update_quality.
-    LOOP AT mt_items INTO mo_item.
-      ycl_item_shop=>create_item( mo_item )->update( ).
+    LOOP AT mt_items INTO DATA(lo_item).
+      ycl_item_shop=>create_item( lo_item )->update( ).
     ENDLOOP.
   ENDMETHOD.
 

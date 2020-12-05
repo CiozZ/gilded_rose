@@ -1,4 +1,3 @@
-*& Test Code - Currently Broken
 CLASS ltc_gilded_rose DEFINITION FINAL FOR TESTING RISK LEVEL HARMLESS.
   PRIVATE SECTION.
     DATA: mo_cut   TYPE REF TO ycl_gilded_rose,
