@@ -13,7 +13,8 @@ CLASS ycl_gilded_rose DEFINITION
 
   PRIVATE SECTION.
     DATA:
-      mt_items TYPE tt_items.
+      mt_items TYPE tt_items,
+      mo_item  TYPE REF TO ycl_item.
 ENDCLASS.
 
 CLASS ycl_gilded_rose IMPLEMENTATION.
@@ -23,58 +24,9 @@ CLASS ycl_gilded_rose IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD update_quality.
-
-    LOOP AT mt_items INTO DATA(lo_item).
-      IF lo_item->mv_name <> |Aged Brie| AND
-         lo_item->mv_name <> |Backstage passes to a TAFKAL80ETC concert|.
-        IF lo_item->mv_quality > 0.
-          IF lo_item->mv_name <> |Sulfuras, Hand of Ragnaros|.
-            lo_item->mv_quality = lo_item->mv_quality - 1.
-          ENDIF.
-        ENDIF.
-      ELSE.
-        IF lo_item->mv_quality < 50.
-          lo_item->mv_quality = lo_item->mv_quality + 1.
-
-          IF lo_item->mv_name = |Backstage passes to a TAFKAL80ETC concert|.
-            IF lo_item->mv_sell_in < 11.
-              IF lo_item->mv_quality < 50.
-                lo_item->mv_quality = lo_item->mv_quality + 1.
-              ENDIF.
-            ENDIF.
-
-            IF lo_item->mv_sell_in < 6.
-              IF lo_item->mv_quality < 50.
-                lo_item->mv_quality = lo_item->mv_quality + 1.
-              ENDIF.
-            ENDIF.
-          ENDIF.
-        ENDIF.
-      ENDIF.
-
-      IF lo_item->mv_name <> |Sulfuras, Hand of Ragnaros|.
-        lo_item->mv_sell_in = lo_item->mv_sell_in - 1.
-      ENDIF.
-
-      IF lo_item->mv_sell_in < 0.
-        IF lo_item->mv_name <> |Aged Brie|.
-          IF lo_item->mv_name <> |Backstage passes to a TAFKAL80ETC concert|.
-            IF lo_item->mv_quality > 0.
-              IF lo_item->mv_name <> |Sulfuras, Hand of Ragnaros|.
-                lo_item->mv_quality = lo_item->mv_quality - 1.
-              ENDIF.
-            ENDIF.
-          ELSE.
-            lo_item->mv_quality = lo_item->mv_quality - lo_item->mv_quality.
-          ENDIF.
-        ELSE.
-          IF lo_item->mv_quality < 50.
-            lo_item->mv_quality = lo_item->mv_quality + 1.
-          ENDIF.
-        ENDIF.
-      ENDIF.
+    LOOP AT mt_items INTO mo_item.
+      ycl_item_shop=>create_item( mo_item )->update( ).
     ENDLOOP.
-
   ENDMETHOD.
 
 ENDCLASS.
